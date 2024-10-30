@@ -2,4 +2,6 @@
 
 ### calling the application
 
-![](view/screenshot_1.png)
+<div>
+    <img src="view/screenshot_1.png">
+</div>
