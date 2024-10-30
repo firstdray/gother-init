@@ -2,4 +2,4 @@
 
 ### calling the application
 
-![SignIn page](view/screenshot_1.png)
+![](view/screenshot_1.png)
