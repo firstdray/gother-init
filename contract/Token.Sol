@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: MIT
+// Compatible with OpenZeppelin Contracts ^5.0.0
+pragma solidity ^0.8.22;
+
+import "@openzeppelin/contracts@5.1.0/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts@5.1.0/token/ERC20/extensions/ERC20Permit.sol";
+
+contract Gother is ERC20, ERC20Permit {
+    constructor() ERC20("Gother", "GOTH") ERC20Permit("Gother") {
+        _mint(msg.sender, 123456 * 10 ** decimals());
+    }
+}

@@ -4,7 +4,7 @@ import (
 	"context"
 	"crypto/ecdsa"
 	"fmt"
-
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/tyler-smith/go-bip32"
@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+
 	// generating mnemonic
 	entropy, _ := bip39.NewEntropy(128)
 	mnemonic, _ := bip39.NewMnemonic(entropy)
@@ -38,6 +39,11 @@ func main() {
 		panic(err)
 	}
 
+	// Get the ECDSA private key
+	privateKeyBytes := crypto.FromECDSA(privateKey)
+	// Converting a byte array to hex
+	privateKeyEth := common.Bytes2Hex(privateKeyBytes)
+
 	// Get the ECDSA public key
 	publicKey := privateKey.Public()
 
@@ -45,13 +51,13 @@ func main() {
 	addr := crypto.PubkeyToAddress(*publicKey.(*ecdsa.PublicKey))
 	//addr := common.HexToAddress("0x36449d413789c6Df27D21bD19De3732A1F63CC4C")
 
-	fmt.Println("address:", addr.Hex())
-
 	// Connect to an Ethereum node (replace with the correct URL)
 	cl, err := ethclient.Dial("https://endpoints.omniatech.io/v1/bsc/testnet/public")
 	if err != nil {
 		panic(err)
 	}
+
+	defer cl.Close()
 
 	// Get the balance at the address
 	balance, err := cl.BalanceAt(context.Background(), addr, nil)
@@ -59,5 +65,10 @@ func main() {
 		panic(err)
 	}
 
+	//tokenAddress := common.HexToAddress("0x1EeB01771dEDa232b46AD9fB637A6D1A7BA1F57B")
+
+	fmt.Println("private key: ", privateKeyEth)
+	fmt.Println("address:", addr.Hex())
 	fmt.Println("balance: ", balance)
+	//fmt.Println("balanceTk: ", balanceOf)
 }
